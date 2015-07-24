@@ -3,8 +3,11 @@
 // language, sort, page
 exports.queryToURL = function(query) {
   var q = 'q=repos:>0';
-  if (query.language) {
+  if (query.language && query.language !== 'all') {
     q += '+language:' + query.language;
+  }
+  if (query.location && query.location !== 'all') {
+    q += '+location:' + query.location;
   }
 
   if (query.sort) {

@@ -100,7 +100,7 @@ var styles = StyleSheet.create({
   text: {
     fontSize: 16,
     textAlign: 'center',
-    color: '#333',
+    color: '#5cafec',
   },
   separator: {
     height: 1 / PixelRatio.get(),

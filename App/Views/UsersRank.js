@@ -29,7 +29,9 @@ var UsersRank = React.createClass({
     return {
       dataSource: ds.cloneWithRows([]),
       sort: 'followers',
-      language: '',
+      language: 'all',
+      location: 'china',
+      total: '',
       page: 1,
       headerLoading: true,
       footerLoading: false,
@@ -41,11 +43,14 @@ var UsersRank = React.createClass({
     RankService.getUsersRank({
       sort: this.state.sort,
       page: this.state.page,
+      language: this.state.language,
+      location: this.state.location,
     }).then(function(result) {
         cachedList = result.items;
         self.setState({
           dataSource: ds.cloneWithRows(cachedList),
           headerLoading: false,
+          total: result.total_count,
         });
       })
       .catch(function(err) {
@@ -55,6 +60,17 @@ var UsersRank = React.createClass({
   render: function() {
     return (
       <View style={styles.list}>
+        <View style={styles.statusBar}>
+          <View style={styles.status}>
+            <Text style={styles.statusText}>Language: {this.state.language}</Text>
+          </View>
+          <View style={styles.status}>
+            <Text style={styles.statusText}>Location: {this.state.location}</Text>
+          </View>
+          <View style={styles.status}>
+            <Text style={styles.statusText}>Total: {this.state.total}</Text>
+          </View>
+        </View>
         <ListView
           ref={'usersRankList'}
           dataSource={this.state.dataSource}
@@ -108,6 +124,8 @@ var UsersRank = React.createClass({
     var self = this;
     RankService.getUsersRank({
       sort: this.state.sort,
+      language: this.state.language,
+      location: this.state.location,
       page: nextPage,
     }).then(function(result) {
         cachedList = cachedList.concat(result.items);
@@ -125,6 +143,18 @@ var UsersRank = React.createClass({
 });
 
 var styles = StyleSheet.create({
+  statusBar: {
+    height: 30,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#eee',
+  },
+  status: {
+    flex: 1,
+  },
+  statusText: {
+    color: '#5cafec',
+  },
   list: {
     flex: 1,
     flexDirection: 'column',

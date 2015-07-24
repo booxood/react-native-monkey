@@ -7,8 +7,10 @@ var Subscribable = require('Subscribable');
 
 var UsersRank = require('./UsersRank');
 var ReposRank = require('./ReposRank');
+var SelectQueryCondition = require('./SelectQueryCondition');
 
 var SideMenuButton = require('../Components/SideMenuButton');
+var SelectQueryConditionButton = require('../Components/SelectQueryConditionButton');
 
 var {
   StyleSheet,
@@ -21,7 +23,7 @@ var firstRoute =  {
   name: 'Users Rank',
   component: UsersRank,
   leftCorner: SideMenuButton,
-  // rightCorner: RefreshButton
+  rightCorner: SelectQueryConditionButton
 };
 
 var Home = React.createClass({
@@ -56,6 +58,12 @@ var Home = React.createClass({
       case 'SideMenuAction':
         this.props.menuActions.open();
         break;
+      // case 'SelectQueryConditionAction':
+      //   router.push({
+      //     name: 'Select Query Condition',
+      //     component: SelectQueryCondition,
+      //   });
+      //   break;
       case 'UsersRankAction':
         router.replace({
           name: 'Users Rank',
