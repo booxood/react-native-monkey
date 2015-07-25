@@ -3,10 +3,10 @@
 // language, sort, page
 exports.queryToURL = function(query) {
   var q = 'q=repos:>0';
-  if (query.language && query.language !== 'all') {
+  if (query.language && query.language !== 'ALL') {
     q += '+language:' + query.language;
   }
-  if (query.location && query.location !== 'all') {
+  if (query.location && query.location !== 'ALL') {
     q += '+location:' + query.location;
   }
 
@@ -17,7 +17,7 @@ exports.queryToURL = function(query) {
     q += '&page=' + query.page;
   }
 
-  return q + '&order=desc';
+  return q + '&per_page=20&order=desc';
 }
 
 exports.SORT = ['followers', 'repositories', 'joined'];

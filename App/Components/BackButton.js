@@ -5,8 +5,6 @@ var {
   Icon
 } = require('react-native-icons');
 
-var SelectQueryCondition = require('../Views/SelectQueryCondition');
-
 var {
   StyleSheet,
   TouchableOpacity,
@@ -15,12 +13,12 @@ var {
 } = React;
 
 
-var SelectQueryConditionButton = React.createClass({
+var BackButton = React.createClass({
   render: function() {
     return (
       <TouchableOpacity activeOpacity={0.7} onPress={this._onPress}>
         <Icon
-          name='fontawesome|search'
+          name='fontawesome|chevron-left'
           size={20}
           color='#fff'
           style={{width: 50, height: 50}}
@@ -29,8 +27,8 @@ var SelectQueryConditionButton = React.createClass({
     )
   },
   _onPress: function() {
-    this.props.customAction({action: 'SelectQueryConditionAction'});
+    this.props.customAction({action: 'UsersRankAction'});
   }
 });
 
-module.exports = SelectQueryConditionButton;
+module.exports = BackButton;

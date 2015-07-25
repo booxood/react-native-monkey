@@ -2,7 +2,7 @@
 
 var React = require('react-native');
 
-var RankService = require('../Services/Rank');
+var UsersRankService = require('../Services/UsersRank');
 var util = require('../Common/util');
 var Spinner = require('../Components/Spinner');
 
@@ -28,24 +28,17 @@ var UsersRank = React.createClass({
   getInitialState: function() {
     return {
       dataSource: ds.cloneWithRows([]),
-      sort: 'followers',
-      language: 'all',
-      location: 'china',
-      total: '',
-      page: 1,
       headerLoading: true,
       footerLoading: false,
       pulluping: false,
+      total: 0,
     };
   },
   componentDidMount: function() {
     var self = this;
-    RankService.getUsersRank({
-      sort: this.state.sort,
-      page: this.state.page,
-      language: this.state.language,
-      location: this.state.location,
-    }).then(function(result) {
+    UsersRankService.query.page = 1;
+    UsersRankService.getUsersRank()
+      .then(function(result) {
         cachedList = result.items;
         self.setState({
           dataSource: ds.cloneWithRows(cachedList),
@@ -54,7 +47,7 @@ var UsersRank = React.createClass({
         });
       })
       .catch(function(err) {
-        console.log('RankService.getUsersRank err:', err);
+        console.log('UsersRankService.getUsersRank err:', err);
       });
   },
   render: function() {
@@ -62,10 +55,14 @@ var UsersRank = React.createClass({
       <View style={styles.list}>
         <View style={styles.statusBar}>
           <View style={styles.status}>
-            <Text style={styles.statusText}>Language: {this.state.language}</Text>
+            <Text style={styles.statusText}>
+              Language: {UsersRankService.query.language}
+            </Text>
           </View>
           <View style={styles.status}>
-            <Text style={styles.statusText}>Location: {this.state.location}</Text>
+            <Text style={styles.statusText}>
+              Location: {UsersRankService.query.location}
+            </Text>
           </View>
           <View style={styles.status}>
             <Text style={styles.statusText}>Total: {this.state.total}</Text>
@@ -85,19 +82,22 @@ var UsersRank = React.createClass({
   },
   _renderRow: function(rowData, sectionID, rowID) {
     // console.log('rowData:', rowData)
-    // console.log(sectionID, rowID)
+    if (!rowData)
+      console.log(sectionID, rowID)
+
+    rowData = rowData || {};
     return (
       <View>
         <TouchableOpacity
           underlayColor="#eee"
           onPress={()=> {}}>
           <View style={styles.row}>
-          <Text style={styles.id}>{parseInt(rowID)+1}</Text>
-          <Image
-            style={styles.avatar}
-            source={{uri: rowData.avatar_url}}
-          />
-          <Text style={styles.username}>{rowData.login}</Text>
+            <Text style={styles.id}>{parseInt(rowID)+1}</Text>
+            <Image
+              style={styles.avatar}
+              source={{uri: rowData.avatar_url}}
+            />
+            <Text style={styles.username}>{rowData.login}</Text>
           </View>
         </TouchableOpacity>
         <View style={styles.separator} />
@@ -120,23 +120,18 @@ var UsersRank = React.createClass({
     }
     this.setState({footerLoading: true});
 
-    var nextPage = this.state.page + 1;
+    UsersRankService.query.page = UsersRankService.query.page + 1;
     var self = this;
-    RankService.getUsersRank({
-      sort: this.state.sort,
-      language: this.state.language,
-      location: this.state.location,
-      page: nextPage,
-    }).then(function(result) {
+    UsersRankService.getUsersRank()
+      .then(function(result) {
         cachedList = cachedList.concat(result.items);
         self.setState({
           dataSource: ds.cloneWithRows(cachedList),
           footerLoading: false,
-          page: nextPage,
         });
       })
       .catch(function(err) {
-        console.log('RankService.getUsersRank err:', err);
+        console.log('UsersRankService.getUsersRank err:', err);
       });
 
   },
@@ -154,6 +149,7 @@ var styles = StyleSheet.create({
   },
   statusText: {
     color: '#5cafec',
+    textAlign: 'center',
   },
   list: {
     flex: 1,

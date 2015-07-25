@@ -11,6 +11,7 @@ var SelectQueryCondition = require('./SelectQueryCondition');
 
 var SideMenuButton = require('../Components/SideMenuButton');
 var SelectQueryConditionButton = require('../Components/SelectQueryConditionButton');
+var BackButton = require('../Components/BackButton');
 
 var {
   StyleSheet,
@@ -30,7 +31,7 @@ var Home = React.createClass({
   mixins: [Subscribable.Mixin],
 
   getInitialState: function() {
-    console.log('Home this:', this);
+    // console.log('Home this:', this);
     return {};
   },
 
@@ -58,17 +59,19 @@ var Home = React.createClass({
       case 'SideMenuAction':
         this.props.menuActions.open();
         break;
-      // case 'SelectQueryConditionAction':
-      //   router.push({
-      //     name: 'Select Query Condition',
-      //     component: SelectQueryCondition,
-      //   });
-      //   break;
+      case 'SelectQueryConditionAction':
+        router.push({
+          name: 'Select Query Condition',
+          component: SelectQueryCondition,
+          leftCorner: BackButton,
+        });
+        break;
       case 'UsersRankAction':
         router.replace({
           name: 'Users Rank',
           component: UsersRank,
           leftCorner: SideMenuButton,
+          rightCorner: SelectQueryConditionButton,
         });
         this.props.menuActions.close();
         break;

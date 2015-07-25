@@ -16,7 +16,7 @@ var {
 
 var Menu = React.createClass({
   getInitialState: function() {
-    console.log('Menu this:', this);
+    // console.log('Menu this:', this);
     return {};
   },
 
