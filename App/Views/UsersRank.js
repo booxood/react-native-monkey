@@ -18,6 +18,7 @@ var {
   ListView,
   Image,
   PixelRatio,
+  AlertIOS,
 } = React;
 
 var ds = new ListView.DataSource(
@@ -124,13 +125,19 @@ var UsersRank = React.createClass({
     var self = this;
     UsersRankService.getUsersRank()
       .then(function(result) {
-        cachedList = cachedList.concat(result.items);
+        // console.log('result:', result)
+        if (result.items) {
+          cachedList = cachedList.concat(result.items);
+        } else {
+          AlertIOS.alert('Error', result.message);
+        }
         self.setState({
           dataSource: ds.cloneWithRows(cachedList),
           footerLoading: false,
         });
       })
       .catch(function(err) {
+        AlertIOS.alert('Error', err.message);
         console.log('UsersRankService.getUsersRank err:', err);
       });
 
