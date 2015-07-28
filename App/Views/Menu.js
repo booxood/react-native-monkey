@@ -29,9 +29,17 @@ var Menu = React.createClass({
 
         <ScrollView
           automaticallyAdjustContentInsets={false}
-
           style={styles.list}>
 
+          <TouchableOpacity
+            underlayColor="#000"
+            onPress={this._onPress.bind(this, 'TrendingAction')}>
+            <View style={styles.row}>
+              <Text style={styles.text}> Trending </Text>
+            </View>
+          </TouchableOpacity>
+
+          <View style={styles.separator} />
           <TouchableOpacity
             underlayColor="#000"
             onPress={this._onPress.bind(this, 'UsersRankAction')}>

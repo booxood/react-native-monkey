@@ -22,3 +22,13 @@ exports.queryToURL = function(query) {
 
 exports.SORT = ['followers', 'repositories', 'joined'];
 exports.ORDER = ['desc', 'asc'];
+
+// get Github trending data
+exports.getGithubTrending = function() {
+  return fetch('https://github.com/trending')
+    .then((response) => response.text())
+    .then((html) => {
+      // TODO
+      return html;
+    });
+}

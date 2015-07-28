@@ -5,6 +5,7 @@ var Router = require('react-native-router');
 var EventEmitter = require('EventEmitter');
 var Subscribable = require('Subscribable');
 
+var Trending = require('./Trending');
 var UsersRank = require('./UsersRank');
 var ReposRank = require('./ReposRank');
 var SelectQueryCondition = require('./SelectQueryCondition');
@@ -65,6 +66,15 @@ var Home = React.createClass({
           component: SelectQueryCondition,
           leftCorner: BackButton,
         });
+        break;
+      case 'TrendingAction':
+        router.replace({
+          name: 'Trending',
+          component: Trending,
+          leftCorner: SideMenuButton,
+          rightCorner: SelectQueryConditionButton,
+        });
+        this.props.menuActions.close();
         break;
       case 'UsersRankAction':
         router.replace({
